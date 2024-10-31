@@ -10,14 +10,14 @@ public class Relationship {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "person1_id")
+    @JoinColumn(name = "person1_id", nullable = false)
     private Person person1;
 
     @ManyToOne
-    @JoinColumn(name = "person2_id")
+    @JoinColumn(name = "person2_id", nullable = false)
     private Person person2;
 
-    private String relationshipType; // Exemple : "ami", "collègue"
+    private String relationshipType;
 
     public Long getId() {
         return id;

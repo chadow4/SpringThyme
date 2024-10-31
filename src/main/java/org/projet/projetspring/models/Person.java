@@ -1,11 +1,7 @@
 package org.projet.projetspring.models;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Person {
@@ -16,12 +12,9 @@ public class Person {
 
     private String firstName;
     private String lastName;
+    private LocalDate birthDate;
 
-    private LocalDate birthDate; // Remplacez java.util.Date par java.time.LocalDate
-
-    @OneToMany(mappedBy = "person1", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Relationship> relationships = new ArrayList<>();
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -52,13 +45,5 @@ public class Person {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public List<Relationship> getRelationships() {
-        return relationships;
-    }
-
-    public void setRelationships(List<Relationship> relationships) {
-        this.relationships = relationships;
     }
 }
