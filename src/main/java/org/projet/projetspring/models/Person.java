@@ -1,9 +1,13 @@
 package org.projet.projetspring.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@Data
 public class Person {
 
     @Id
@@ -14,36 +18,8 @@ public class Person {
     private String lastName;
     private LocalDate birthDate;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "person1")
+    private List<Relationship> friendships;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
 }
