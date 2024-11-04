@@ -41,10 +41,15 @@ public class RelationshipController {
     @GetMapping("/{personId}")
     public String getFriendships(@PathVariable Long personId, Model model) {
         Person person = personService.findById(personId);
+        if (person == null) {
+            return "redirect:/persons";
+        }
         model.addAttribute("person", person);
-        ;
-//        List<Relationship> friendships = relationshipService.getFriendshipsByPersonId(personId);
-//        model.addAttribute("friendships", friendships);
+//        model.addAttribute("friends",relationshipService.getFriendshipsByPersonId(personId));
+        if (!person.getAllFriendships().isEmpty()) {
+            System.out.println("Liste des amis de " + person.getFirstName() + ": " + person.getAllFriendships());
+            model.addAttribute("friends", person.getAllFriendships());
+        }
         return "relationship/friendships";
     }
 }

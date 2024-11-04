@@ -9,7 +9,7 @@
     <tr>
         <th>Amis</th>
     </tr>
-    <tr th:each="relationship : ${person.getFriendships()}">
+    <tr th:each="relationship : ${friends}">
         <td th:text="${relationship.person1.id == person.id ? relationship.person2.firstName + ' ' + relationship.person2.lastName : relationship.person1.firstName + ' ' + relationship.person1.lastName}"></td>
     </tr>
 </table>
