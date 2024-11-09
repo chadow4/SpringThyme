@@ -10,9 +10,4 @@ import java.util.List;
 
 @Repository
 public interface RelationshipRepository extends JpaRepository<Relationship, Long> {
-    @Query("SELECT r FROM Relationship r WHERE (r.person1.id = :personId OR r.person2.id = :personId) AND r.relationshipType = :relationshipType")
-    List<Relationship> findFriendshipsByPersonId(
-            @Param("personId") Long personId,
-            @Param("relationshipType") String relationshipType
-    );
 }

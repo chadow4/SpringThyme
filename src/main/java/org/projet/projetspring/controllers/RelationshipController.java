@@ -1,12 +1,16 @@
 package org.projet.projetspring.controllers;
 
+import org.projet.projetspring.dtos.RequestDto;
 import org.projet.projetspring.models.Person;
 import org.projet.projetspring.services.PersonService;
 import org.projet.projetspring.services.RelationshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -22,20 +26,25 @@ public class RelationshipController {
     @GetMapping("/new")
     public String showCreateFriendshipForm(Model model) {
         model.addAttribute("people", personService.findAll());
-        return "relationship/create-friendship";
+        model.addAttribute("requestDto", new RequestDto());
+        return "relationship/create-relation";
     }
 
     @PostMapping("/create")
-    public String createFriendship(@RequestParam Long person1Id, @RequestParam Long person2Id, Model model, RedirectAttributes redirectAttributes) {
+    public String createFriendship(RequestDto requestDto, Model model, RedirectAttributes redirectAttributes) {
+        if (requestDto.getFromUser() == null || requestDto.getToUser() == null || requestDto.getRequestStr() == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Please fill all the required fields");
+            return "redirect:/relationships/new";
+        }
         try {
-            relationshipService.createFriendship(person1Id, person2Id);
+            relationshipService.createFriendship(requestDto);
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "An error occurred while creating the friendship: " + e.getMessage());
 
             return "redirect:/relationships/new";
         }
-        return "redirect:/relationships/" + person1Id;
+        return "redirect:/relationships/" + requestDto.getFromUser();
     }
 
     @GetMapping("/{personId}")
@@ -45,10 +54,9 @@ public class RelationshipController {
             return "redirect:/persons";
         }
         model.addAttribute("person", person);
-//        model.addAttribute("friends",relationshipService.getFriendshipsByPersonId(personId));
         if (!person.getAllFriendships().isEmpty()) {
             System.out.println("Liste des amis de " + person.getFirstName() + ": " + person.getAllFriendships());
-            model.addAttribute("friends", person.getAllFriendships());
+            model.addAttribute("relations", person.getAllFriendships());
         }
         return "relationship/friendships";
     }

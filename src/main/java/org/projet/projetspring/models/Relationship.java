@@ -2,23 +2,32 @@ package org.projet.projetspring.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Relationship {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "person1_id", nullable = false)
-    private Person person1;
-
-    @ManyToOne
-    @JoinColumn(name = "person2_id", nullable = false)
-    private Person person2;
-
     private String relationshipType;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "fromUser", nullable = false)
+    private Person fromUser;
+
+    @ManyToOne
+    @JoinColumn(name = "toUser", nullable = false)
+    private Person toUser;
+
+    public Relationship(String relationshipType, Person fromUser, Person toUser) {
+        this.relationshipType = relationshipType;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+    }
+
+
 }

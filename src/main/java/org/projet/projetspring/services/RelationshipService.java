@@ -1,6 +1,7 @@
 package org.projet.projetspring.services;
 
 
+import org.projet.projetspring.dtos.RequestDto;
 import org.projet.projetspring.models.Person;
 import org.projet.projetspring.models.Relationship;
 import org.projet.projetspring.repositories.PersonRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,32 +22,26 @@ public class RelationshipService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Relationship createFriendship(Long person1Id, Long person2Id) {
-        Optional<Person> person1 = personRepository.findById(person1Id);
-        Optional<Person> person2 = personRepository.findById(person2Id);
-
-        if (person1Id.equals(person2Id)) {
+    public void createFriendship(RequestDto requestDto) {
+        if (requestDto.getToUser().equals(requestDto.getFromUser())) {
             throw new IllegalArgumentException("Impossible de créer une amitié entre une personne et elle-même.");
         }
-        List <Relationship> relationships = relationshipRepository.findFriendshipsByPersonId(person1Id, "ami");
+        Optional<Person> person1 = personRepository.findById(requestDto.getFromUser());
+        Optional<Person> person2 = personRepository.findById(requestDto.getToUser());
+
+        if (person1.isEmpty() || person2.isEmpty()) {
+            throw new IllegalArgumentException("Personne introuvable pour les identifiants donnés.");
+        }
+        List<Relationship> relationships = person1.get().getAllFriendships();
         for (Relationship relationship : relationships) {
-            if (relationship.getPerson1().getId().equals(person2Id) || relationship.getPerson2().getId().equals(person2Id)) {
-                throw new IllegalArgumentException("Ces personnes sont déjà amies.");
+            if (Objects.equals(relationship.getRelationshipType(), requestDto.getRequestStr()) && (relationship.getFromUser().getId().equals(person2.get().getId()) || relationship.getToUser().getId().equals(person2.get().getId()))) {
+                throw new IllegalArgumentException("Ces personnes sont déjà reliées.");
             }
         }
 
-        if (person1.isPresent() && person2.isPresent()) {
-            Relationship relationship = new Relationship();
-            relationship.setPerson1(person1.get());
-            relationship.setPerson2(person2.get());
-            relationship.setRelationshipType("ami");
-            return relationshipRepository.save(relationship);
-        } else {
-            throw new IllegalArgumentException("Personne introuvable pour les identifiants donnés.");
-        }
+        Relationship relationship = new Relationship(requestDto.getRequestStr(), person1.get(), person2.get());
+        relationshipRepository.save(relationship);
+
     }
 
-    public List<Relationship> getFriendshipsByPersonId(Long personId) {
-        return relationshipRepository.findFriendshipsByPersonId(personId, "ami");
-    }
 }

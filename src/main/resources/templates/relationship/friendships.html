@@ -9,8 +9,8 @@
     <tr>
         <th>Amis</th>
     </tr>
-    <tr th:each="relationship : ${friends}">
-        <td th:text="${relationship.person1.id == person.id ? relationship.person2.firstName + ' ' + relationship.person2.lastName : relationship.person1.firstName + ' ' + relationship.person1.lastName}"></td>
+    <tr th:each="relationship : ${relations}">
+        <td th:text="${relationship.fromUser.id == person.id ? relationship.toUser.firstName + ' ' + relationship.toUser.lastName : relationship.fromUser.firstName + ' ' + relationship.fromUser.lastName+ ' relation:'+ relationship.getRelationshipType()}"></td>
     </tr>
 </table>
 <a th:href="@{/relationships/new}">Ajouter une amitié</a>

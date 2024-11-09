@@ -1,12 +1,13 @@
 package org.projet.projetspring.controllers;
 
-import org.projet.projetspring.models.Person;
+import org.projet.projetspring.dtos.PersonDto;
 import org.projet.projetspring.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,13 +26,17 @@ public class PersonController {
 
     @GetMapping("/create")
     public String createPersonForm(Model model) {
-        model.addAttribute("person", new Person());
+        model.addAttribute("person", new PersonDto());
         return "persons/create";
     }
 
     @PostMapping("/create")
-    public String createPerson(@ModelAttribute Person person) {
-        personService.save(person);
+    public String createPerson(PersonDto personDto, BindingResult result) {
+        try {
+            personService.createUser(personDto);
+        } catch (Exception e) {
+            result.addError(new ObjectError("user", "Cette personne n'est pas disponible"));
+        }
         return "redirect:/persons";
     }
 }

@@ -2,6 +2,7 @@ package org.projet.projetspring.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Person {
 
     @Id
@@ -20,20 +22,25 @@ public class Person {
     private String lastName;
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "person1")
+    @OneToMany(mappedBy = "fromUser", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<Relationship> friendshipsAsPerson1;
+    private List<Relationship> askedRelationships;
 
-    @OneToMany(mappedBy = "person2")
+    @OneToMany(mappedBy = "toUser", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<Relationship> friendshipsAsPerson2;
+    private List<Relationship> requestedRelationships;
+
+    public Person(String firstName, String lastName, LocalDate birthDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+    }
 
     public List<Relationship> getAllFriendships() {
-        List<Relationship> allFriendships = new ArrayList<>();
-        if (friendshipsAsPerson1 != null) allFriendships.addAll(friendshipsAsPerson1);
-
-        if (friendshipsAsPerson2 != null) allFriendships.addAll(friendshipsAsPerson2);
-        return allFriendships;
+        List<Relationship> allRelationship = new ArrayList<>();
+        if (askedRelationships != null) allRelationship.addAll(askedRelationships);
+        if (requestedRelationships != null) allRelationship.addAll(requestedRelationships);
+        return allRelationship;
     }
 
 }
