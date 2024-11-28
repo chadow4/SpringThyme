@@ -22,11 +22,11 @@ public class Person {
     private String lastName;
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "fromUser", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "fromUser", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Relationship> askedRelationships;
 
-    @OneToMany(mappedBy = "toUser", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "toUser", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Relationship> requestedRelationships;
 

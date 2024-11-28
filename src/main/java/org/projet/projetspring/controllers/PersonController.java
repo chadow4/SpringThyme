@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,12 +27,15 @@ public class PersonController {
 
     @GetMapping("/create")
     public String createPersonForm(Model model) {
-        model.addAttribute("person", new PersonDto());
+        model.addAttribute("person", new PersonDto(null,"","",null));
         return "persons/create";
     }
 
     @PostMapping("/create")
-    public String createPerson(PersonDto personDto, BindingResult result) {
+    public String createPerson(@ModelAttribute("person") PersonDto personDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "persons/create";
+        }
         try {
             personService.createUser(personDto);
         } catch (Exception e) {
@@ -39,4 +43,5 @@ public class PersonController {
         }
         return "redirect:/persons";
     }
+
 }

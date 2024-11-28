@@ -10,7 +10,12 @@
         <th>Amis</th>
     </tr>
     <tr th:each="relationship : ${relations}">
-        <td th:text="${relationship.fromUser.id == person.id ? relationship.toUser.firstName + ' ' + relationship.toUser.lastName : relationship.fromUser.firstName + ' ' + relationship.fromUser.lastName+ ' relation:'+ relationship.getRelationshipType()}"></td>
+        <td>
+    <span th:if="${relationship.fromUser.id == person.id}"
+          th:text="${relationship.toUser.firstName + ' ' + relationship.toUser.lastName + ' relation: ' + relationship.relationshipType}"></span>
+            <span th:if="${relationship.fromUser.id != person.id}"
+                  th:text="${relationship.fromUser.firstName + ' ' + relationship.fromUser.lastName + ' relation: ' + relationship.relationshipType}"></span>
+        </td>
     </tr>
 </table>
 <a th:href="@{/relationships/new}">Ajouter une amitié</a>

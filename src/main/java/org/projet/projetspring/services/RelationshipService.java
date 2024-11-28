@@ -23,23 +23,23 @@ public class RelationshipService {
     private PersonRepository personRepository;
 
     public void createFriendship(RequestDto requestDto) {
-        if (requestDto.getToUser().equals(requestDto.getFromUser())) {
+        if (requestDto.toUser().equals(requestDto.fromUser())) {
             throw new IllegalArgumentException("Impossible de créer une amitié entre une personne et elle-même.");
         }
-        Optional<Person> person1 = personRepository.findById(requestDto.getFromUser());
-        Optional<Person> person2 = personRepository.findById(requestDto.getToUser());
+        Optional<Person> person1 = personRepository.findById(requestDto.fromUser());
+        Optional<Person> person2 = personRepository.findById(requestDto.toUser());
 
         if (person1.isEmpty() || person2.isEmpty()) {
             throw new IllegalArgumentException("Personne introuvable pour les identifiants donnés.");
         }
         List<Relationship> relationships = person1.get().getAllFriendships();
         for (Relationship relationship : relationships) {
-            if (Objects.equals(relationship.getRelationshipType(), requestDto.getRequestStr()) && (relationship.getFromUser().getId().equals(person2.get().getId()) || relationship.getToUser().getId().equals(person2.get().getId()))) {
+            if (Objects.equals(relationship.getRelationshipType(), requestDto.requestStr()) && (relationship.getFromUser().getId().equals(person2.get().getId()) || relationship.getToUser().getId().equals(person2.get().getId()))) {
                 throw new IllegalArgumentException("Ces personnes sont déjà reliées.");
             }
         }
 
-        Relationship relationship = new Relationship(requestDto.getRequestStr(), person1.get(), person2.get());
+        Relationship relationship = new Relationship(requestDto.requestStr(), person1.get(), person2.get());
         relationshipRepository.save(relationship);
 
     }

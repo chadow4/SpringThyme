@@ -26,13 +26,13 @@ public class RelationshipController {
     @GetMapping("/new")
     public String showCreateFriendshipForm(Model model) {
         model.addAttribute("people", personService.findAll());
-        model.addAttribute("requestDto", new RequestDto());
+        model.addAttribute("requestDto", new RequestDto(null,null,""));
         return "relationship/create-relation";
     }
 
     @PostMapping("/create")
     public String createFriendship(RequestDto requestDto, Model model, RedirectAttributes redirectAttributes) {
-        if (requestDto.getFromUser() == null || requestDto.getToUser() == null || requestDto.getRequestStr() == null) {
+        if (requestDto.fromUser() == null || requestDto.toUser() == null || requestDto.requestStr() == null) {
             redirectAttributes.addFlashAttribute("errorMessage", "Please fill all the required fields");
             return "redirect:/relationships/new";
         }
@@ -44,7 +44,7 @@ public class RelationshipController {
 
             return "redirect:/relationships/new";
         }
-        return "redirect:/relationships/" + requestDto.getFromUser();
+        return "redirect:/relationships/" + requestDto.fromUser();
     }
 
     @GetMapping("/{personId}")

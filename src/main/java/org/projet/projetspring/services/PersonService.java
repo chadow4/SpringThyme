@@ -15,22 +15,22 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    private PersonDto convertToDto(Person person) {
-        return new PersonDto(person.getId(), person.getFirstName(), person.getLastName(), person.getBirthDate());
-    }
-
     public List<PersonDto> findAll() {
         return personRepository.findAll().stream()
-                .map(this::convertToDto)
+                .map(person -> new PersonDto(
+                        person.getId(),
+                        person.getFirstName(),
+                        person.getLastName(),
+                        person.getBirthDate()))
                 .collect(Collectors.toList());
     }
 
     public Person findById(Long id) {
-        return  personRepository.findById(id).orElse(null);
+        return personRepository.findById(id).orElse(null);
     }
 
     public Person createUser(PersonDto personDto) {
-        Person user = new Person(personDto.getFirstName(), personDto.getLastName(), personDto.getBirthDate());
-        return personRepository.save(user);
+        Person person = new Person(personDto.firstName(), personDto.lastName(), personDto.birthDate());
+        return personRepository.save(person);
     }
 }

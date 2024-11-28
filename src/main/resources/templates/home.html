@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Accueil</title>
+</head>
+<body>
+<h1>Bienvenue sur l'application Spring Boot</h1>
+<p>Choisissez une action :</p>
+<ul>
+    <li><a th:href="@{/persons}">Gérer les Personnes</a></li>
+    <li><a th:href="@{/relationships/new}">Créer une Relation</a></li>
+</ul>
+</body>
+</html>
