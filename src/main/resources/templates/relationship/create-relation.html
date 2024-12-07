@@ -4,6 +4,7 @@
     <title>Créer une amitié</title>
 </head>
 <body>
+<div th:insert="~{common/header.html :: header}"></div>
 <h2>Créer une amitié</h2>
 <form action="#" th:action="@{/relationships/create}" method="post"  th:object="${requestDto}">
     <label>Personne 1:</label>

@@ -4,6 +4,7 @@
     <title>Créer une Personne</title>
 </head>
 <body>
+<div th:insert="~{common/header.html :: header}"></div>
 <h1>Créer une Personne</h1>
 <form th:action="@{/persons/create}" th:object="${person}" method="post">
     <label for="firstName">Prénom:</label>
@@ -12,10 +13,13 @@
     <label for="lastName">Nom:</label>
     <input type="text" id="lastName" th:field="*{lastName}"/><br/>
 
-    <label for="birthDate">Date de Naissance:</label>
+    <label for="birthDate">Date de Naissance:</label><br/>
     <input type="date" id="birthDate" th:field="*{birthDate}" /><br/>
 
 
+
+    <label for="birthDate">Profil:</label>
+    <textarea id="profil" name="profil" rows="10" cols="50" placeholder="Décrivez-la personne en détail, vos expériences, passions, et intérêts."></textarea><br><br>
     <button type="submit">Créer</button>
 </form>
 </body>

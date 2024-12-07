@@ -1,5 +1,6 @@
 package org.projet.projetspring.controllers;
 
+import org.projet.projetspring.dtos.FilterDto;
 import org.projet.projetspring.dtos.RequestDto;
 import org.projet.projetspring.models.Person;
 import org.projet.projetspring.services.PersonService;

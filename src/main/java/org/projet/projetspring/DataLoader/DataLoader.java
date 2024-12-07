@@ -1,0 +1,68 @@
+package org.projet.projetspring.DataLoader;
+
+import org.hibernate.Hibernate;
+import org.projet.projetspring.models.Person;
+import org.projet.projetspring.models.Relationship;
+import org.projet.projetspring.services.RelationshipService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.projet.projetspring.services.PersonService;
+
+import java.time.LocalDate;
+
+
+@Component
+public class DataLoader implements CommandLineRunner {
+
+
+    @Autowired
+    PersonService personService;
+    @Autowired
+    RelationshipService relationService;
+
+    @Override
+    public void run(String... args) throws Exception {
+
+        String longProfil = "";
+
+        Person alice = this.personService.createUser("alice", "dubois", LocalDate.of(2001, 2, 7), "Alice est une jeune femme au parcours aussi riche qu’éclectique. Née dans une petite ville bordée de montagnes et traversée par une rivière sinueuse, elle a grandi entourée de livres, de musique et d’une curiosité insatiable pour le monde. Avec des cheveux châtains toujours en bataille, souvent attachés à la hâte en un chignon décoiffé, et des yeux d’un vert éclatant, elle porte une énergie vive et débordante qui attire instantanément l’attention. Alice est dotée d’un esprit analytique mais profondément créatif, un mélange qui lui permet de jongler avec aisance entre des passions variées et des projets ambitieux.\n" +
+                "\n" +
+                "Dès son plus jeune âge, Alice s’est intéressée aux mystères de l’univers, fascinée par les étoiles et les planètes qu’elle observait avec un vieux télescope trouvé dans le grenier de ses grands-parents. Cette passion l’a menée à étudier l’astrophysique à l’université, où elle s’est distinguée par sa capacité à vulgariser des concepts complexes avec un enthousiasme contagieux. Cependant, son intérêt ne s’est pas limité aux sciences exactes : Alice a également cultivé un amour pour la littérature et les langues. Polyglotte autodidacte, elle parle couramment l’anglais, l’italien et le japonais, et aime explorer les nuances culturelles et linguistiques qui façonnent notre perception du monde.\n" +
+                "\n" +
+                "Professionnellement, Alice a choisi une voie peu conventionnelle. Après plusieurs stages dans des observatoires prestigieux, elle a décidé de se consacrer à l’éducation scientifique et à la médiation culturelle. Aujourd’hui, elle travaille comme rédactrice pour une revue de vulgarisation scientifique et donne régulièrement des conférences dans des écoles et des bibliothèques. Elle est aussi à l’origine d’un podcast à succès où elle mêle récits personnels, découvertes scientifiques et entretiens avec des experts. Parallèlement, elle participe à des projets communautaires liés à la protection de l’environnement, notamment la reforestation urbaine et la sensibilisation à l’impact écologique.");
+        Person bob = this.personService.createUser("bob", "barnabe", LocalDate.of(2002, 1, 6), "Bob est un homme d’apparence simple mais avec une profondeur inattendue qui se révèle peu à peu à ceux qui prennent le temps de le connaître. Avec ses cheveux noirs légèrement grisonnants sur les tempes et son regard souvent pensif, Bob porte une certaine aura de calme qui semble attirer la confiance des autres, bien qu’il soit d’un naturel discret. Il n’est pas le genre de personne qui cherche à se faire remarquer, mais il sait comment capter l’attention par sa présence tranquille et rassurante. Sa silhouette, de taille moyenne et légèrement corpulente, dégage une forme de stabilité qui contraste avec son esprit en perpétuel mouvement.\n" +
+                "\n" +
+                "Né et ayant grandi dans une banlieue animée, Bob a toujours eu une relation particulière avec son environnement. Enfant, il passait des heures à observer les détails de la ville : les fissures dans le trottoir, les vieux bâtiments dont les pierres semblaient avoir des histoires à raconter, les passants dont les vies l’intriguaient sans qu’il ne leur adresse un mot. C’est dans cette ville pleine de bruit et de chaos qu’il a découvert sa passion pour la mécanique. Tout a commencé avec un vieux vélo qu’il avait réparé lui-même à l’adolescence, une première expérience de satisfaction qui l’a conduit à étudier la mécanique automobile puis à travailler dans un garage local. Aujourd’hui, il est technicien en maintenance industrielle, mais il n’a jamais cessé d’apprécier les plaisirs simples du travail manuel.\n" +
+                "\n" +
+                "Malgré ses compétences techniques et son expertise en mécanique, Bob nourrit une passion secrète pour la littérature, en particulier pour les récits d’aventure et les classiques de la science-fiction. Chaque soir, après sa journée de travail, il s’enferme souvent dans son petit appartement modeste, le livre en main, pour se plonger dans des mondes imaginaires. C’est dans ces moments de lecture qu’il trouve une forme d’évasion et de réflexion. Il a une bibliothèque bien garnie, avec une collection impressionnante d’ouvrages de science-fiction, mais aussi de romans policiers et de récits historiques. Si l’on lui demande de parler de ses auteurs préférés, il citera volontiers Philip K. Dick et Isaac Asimov, mais il n’hésitera pas non plus à citer des écrivains moins connus, ceux qu’il a découverts lors de ses visites dans les petites librairies locales.");
+        Person charles = this.personService.createUser("charles", "charles", LocalDate.of(2000, 1, 12), "Charles est un homme de 42 ans dont la présence imposante contraste avec sa douceur intérieure. De taille grande et d'une silhouette élancée, il possède une allure à la fois calme et autoritaire, mais derrière ses traits marqués par le temps et l’expérience, se cache une personnalité chaleureuse et généreuse. Ses cheveux, autrefois noirs, ont désormais des mèches grisonnantes qui ajoutent une certaine élégance à son visage, tandis que ses yeux bruns, profonds et pleins de réflexion, semblent scruter chaque détail du monde qui l’entoure. Il porte souvent des vêtements classiques, avec une préférence pour les costumes bien taillés, mais toujours avec une touche décontractée, comme une chemise légèrement déboutonnée ou des chaussures en cuir patinées par le temps.\n" +
+                "\n" +
+                "Né dans une grande ville portuaire, Charles a grandi dans un environnement d’opportunités et de défis. Ses parents, deux intellectuels passionnés, ont veillé à ce qu'il ait accès à une éducation de qualité, lui inculquant dès son plus jeune âge l'importance de la réflexion et de la curiosité. Il a passé une grande partie de son enfance à lire des livres sur l'histoire, la philosophie et la politique, ce qui l'a naturellement poussé à suivre des études en sciences humaines. Bien que son parcours ait commencé par une spécialisation en droit, il s’est rapidement tourné vers la sociologie, fasciné par les dynamiques sociales et les structures de pouvoir. À 25 ans, après avoir travaillé dans plusieurs organisations internationales, il a pris la décision de fonder sa propre entreprise de conseil en gestion du changement, une aventure qui a non seulement consolidé sa carrière, mais aussi affirmé son désir de créer un impact positif dans la société.\n" +
+                "\n" +
+                "Charles est un homme réfléchi, toujours à l’écoute des autres, mais qui ne craint pas de défendre ses idées avec conviction. Sa manière d’aborder les problèmes est stratégique, méthodique et, parfois, même philosophique. Il est d’une grande sagesse et possède un sens aigu de la justice, ce qui fait de lui un conseiller recherché par ses clients, mais aussi un mentor pour ses employés. Il aime particulièrement travailler avec des équipes pluridisciplinaires, où chacun peut apporter sa propre perspective. Il est le genre de personne à encourager la diversité des opinions, à remettre en question les idées reçues et à pousser ceux qui l’entourent à dépasser leurs propres limites.\n" +
+                "\n" +
+                "En dehors de son travail, Charles est un grand amateur de musique classique. Il passe des heures à écouter des symphonies, à étudier des partitions et à discuter avec ses amis musiciens de l’interprétation de telle ou telle œuvre. Bien qu’il n’ait pas le temps de jouer d’un instrument de manière régulière, il reste un musicien passionné dans l’âme, appréciant la perfection dans chaque mouvement. Il aime aussi s’échapper le week-end dans des expositions d’art ou lors de longues promenades dans la nature, où il trouve souvent l’inspiration pour ses réflexions personnelles. Charles a un don particulier pour observer les petites choses, ce qui lui permet de voir la beauté là où d’autres ne la remarqueraient pas.");
+        Person darrick = this.personService.createUser("darrick", "darrick", LocalDate.of(2004, 4, 7), "ChatGPT\n" +
+                "\n" +
+                "Darrick est un homme dont la présence est aussi intrigante qu’énigmatique. D’une stature moyenne mais robuste, avec des traits carrés et des cheveux noirs qu’il garde volontairement courts, Darrick dégage une sorte d'énergie tranquille mais déterminée. Il a ce regard perçant, presque calculateur, qui laisse penser qu’il observe constamment son environnement, comme s’il cherchait toujours à comprendre les motivations des autres, tout en restant, de manière paradoxale, très réservé. Son visage, parfois marqué par une légère barbe de trois jours, reflète la maturité d’un homme qui a vécu plusieurs vies en une seule, mais qui semble à la fois jeune et sage.\n" +
+                "\n" +
+                "Darrick a grandi dans une ville industrielle, au sein d’une famille modeste mais aimante. Très tôt, il s’est retrouvé plongé dans un environnement où la survie et l’adaptation étaient primordiales. Ses parents, travailleurs acharnés, lui ont transmis une éthique de travail rigoureuse, mais aussi une forme de résilience qu’il n’a cessé de cultiver au fil des années. Très tôt, il s’est éloigné des sentiers battus pour tracer sa propre route. Plutôt que de suivre la voie classique d’une carrière universitaire, il a choisi un apprentissage plus pratique, se formant sur le tas dans des domaines variés : du travail manuel à la gestion de projets, en passant par le commerce international. Il n’a pas l'habitude de s’étendre sur son passé, mais ceux qui le connaissent savent qu’il a su grimper les échelons à force de détermination, devenant aujourd’hui un consultant reconnu dans le domaine de la gestion de crises.\n" +
+                "\n" +
+                "En tant que professionnel, Darrick se distingue par sa capacité à rester calme et analytique même dans les moments de grande tension. Il a un esprit acéré, capable de décomposer des problèmes complexes pour en dégager des solutions pratiques et efficaces. Les situations extrêmes ne l’effraient pas, au contraire, elles le motivent. C’est un homme qui aime les défis, qu’ils soient d’ordre intellectuel ou physique. Darrick est un observateur stratégique, mais ce n’est pas pour autant qu’il s’impose comme leader autoritaire. Il préfère œuvrer dans l’ombre, guidant subtilement les autres tout en laissant une grande liberté d’action. Ce qui le distingue véritablement, c’est sa capacité à comprendre les dynamiques humaines sous-jacentes à chaque situation, ce qui lui permet d’être d’une grande efficacité dans son travail.");
+        Person eomer = this.personService.createUser("eomer", "eomer", LocalDate.of(1326, 2, 21), "Éomer, fils de Théoden, se distingue par une prestance imposante, héritée de sa lignée royale du Rohan. Âgé de 32 ans, il est un homme dont la stature et la bravoure évoquent la majesté des cavaliers du Rohan. Sa carrure est athlétique et son visage, marqué par le soleil et le vent des vastes plaines, témoigne de nombreuses années passées à mener ses hommes au combat. Ses cheveux blonds, longs et souvent légèrement épars, encadrent un visage où se lisent la force, la détermination et parfois la mélancolie. Ses yeux, d’un bleu perçant, sont ceux d’un guerrier qui a connu les souffrances de la guerre et les sacrifices personnels, mais qui ne se laisse jamais dominer par l’adversité.\n" +
+                "\n" +
+                "Éomer a grandi dans l’ombre d’un père, Théoden, qui, bien que roi du Rohan, a souvent été affaibli par des luttes internes et des pressions extérieures. Élevé dans la dureté des montagnes et des vallées du Rohan, il a appris très tôt à manier l’épée, à chevaucher avec une agilité impressionnante et à mener les troupes dans les batailles. Son enfance a été marquée par l'ombre de son oncle, Grima, qui, malgré sa position de conseiller, n’a jamais su gagner le respect d’Éomer. Ce dernier a été formé à comprendre que la royauté n’était pas simplement une question de pouvoir, mais de responsabilité envers son peuple et ses alliés. Tout au long de son adolescence, il a cherché à dépasser les doutes et la lenteur de son royaume, s’affirmant progressivement comme un leader naturel et un homme d’honneur.");
+
+
+        Relationship r1 = this.relationService.createFriendship(alice.getId(), bob.getId(), "ami");
+        Relationship r2 = this.relationService.createFriendship(alice.getId(), bob.getId(), "camarade");
+
+        Relationship r3 = this.relationService.createFriendship(alice.getId(), charles.getId(), "ami");
+        Relationship r4 = this.relationService.createFriendship(alice.getId(), darrick.getId(), "camarade");
+
+        Relationship r5 = this.relationService.createFriendship(charles.getId(), darrick.getId(), "ami");
+
+
+    }
+}

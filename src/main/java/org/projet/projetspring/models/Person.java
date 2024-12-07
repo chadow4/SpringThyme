@@ -22,6 +22,9 @@ public class Person {
     private String lastName;
     private LocalDate birthDate;
 
+    @Lob
+    private String profil;
+
     @OneToMany(mappedBy = "fromUser", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Relationship> askedRelationships;
@@ -30,10 +33,11 @@ public class Person {
     @ToString.Exclude
     private List<Relationship> requestedRelationships;
 
-    public Person(String firstName, String lastName, LocalDate birthDate) {
+    public Person(String firstName, String lastName, LocalDate birthDate, String profil) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
+        this.profil = profil;
     }
 
     public List<Relationship> getAllFriendships() {

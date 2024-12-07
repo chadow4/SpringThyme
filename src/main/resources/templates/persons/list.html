@@ -2,14 +2,70 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Liste des Personnes</title>
+    <script>
+        function updateHidden(){
+        var selectedOption = document.querySelector('select[name="condition"]').value;
+
+        document.getElementById('label_nb_relation').hidden = true;
+        document.getElementById('input_nb_relation').hidden = true;
+        document.getElementById('label_keyword').hidden = true;
+        document.getElementById('input_keyword').hidden = true;
+
+        if (selectedOption === "nbrelation") {
+            document.getElementById('label_nb_relation').hidden = false;
+            document.getElementById('input_nb_relation').hidden = false;
+        } else if (selectedOption === "keyword") {
+            document.getElementById('label_keyword').hidden = false;
+            document.getElementById('input_keyword').hidden = false;
+        } else if (selectedOption === "friendwith") {
+            document.getElementById('label_friendwith').hidden = false;
+            document.getElementById('input_friendwith').hidden = false;
+        }
+        }
+        updateHidden()
+    </script>
+
 </head>
 <body>
+<div th:insert="~{common/header.html :: header}"></div>
 <h1>Liste des Personnes</h1>
-<a th:href="@{/persons/create}">Ajouter une Personne</a>
+<form action="#" th:action="@{/persons/filter}" method="post"  th:object="${filterDto}">
+
+
+    <label>Catégorie de Filtrage:</label><br/>
+    <select th:field="*{condition}" onclick="updateHidden()">
+        <option th:value="nbrelation" th:text="'nombre relation'"></option>
+        <option th:value="norelation" th:text="'aucune relation'"></option>
+        <option th:value="manyrelation" th:text="'plusieurs types'"></option>
+        <option th:value="keyword" th:text="'mot clé'"></option>
+        <option th:value="friendwith" th:text="'en relation avec'"></option>
+    </select>
+
+    <br/>
+    <label hidden id="label_nb_relation">Au plus N relations:</label><br/>
+    <input hidden id="input_nb_relation" type="number"  th:field="*{nbrelation}" ><br/>
+
+    <label hidden id="label_keyword">Filtrer par mot clé:</label><br/>
+    <input hidden id="input_keyword" type="text" th:field="*{keyword}"  minlength="1" pattern="[^ ]+" /><br/>
+
+    <label hidden id="label_friendwith">Relation commune avec:</label><br/>
+    <input hidden id="input_friendwith" type="number"  th:field="*{user_id}" ><br/>
+
+
+
+    <button type="submit">Filtrer</button>
+</form>
 <ul>
     <li th:each="person : ${persons}">
         <span th:text="${person.firstName} + ' ' + ${person.lastName}"></span>
+        <a  th:href="'/persons/'+${person.id()}">profil</a>
         (Date de naissance: <span th:text="${person.birthDate}"></span>)
+    </li>
+</ul>
+
+<ul>
+    <li th:each="relation : ${relationTypeList}">
+        <span th:text="${relation}"></span>
     </li>
 </ul>
 </body>
