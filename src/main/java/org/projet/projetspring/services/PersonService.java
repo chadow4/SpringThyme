@@ -57,7 +57,7 @@ public class PersonService {
             return this.toDto(this.personRepository.findAllByRequestedRelationshipsEmptyAndAskedRelationshipsEmpty());
         }
         if(Objects.equals(filterDto.condition(), "manyrelation")){
-            return this.toDto(this.personRepository.findAllByDifferentRelations());
+            return this.toDto(this.personRepository.findPersonsWithMultipleRelationshipTypes());
         }
         if(Objects.equals(filterDto.condition(), "nbrelation") && filterDto.nbrelation() != null){
             return this.toDto(this.personRepository.findAllWithListSizeLessThanEqual(filterDto.nbrelation()));

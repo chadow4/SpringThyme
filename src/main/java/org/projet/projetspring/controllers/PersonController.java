@@ -58,7 +58,7 @@ public class PersonController {
     @PostMapping("/filter")
     public String filterPerson(@ModelAttribute("filterDto") FilterDto filterDto, Model model, BindingResult result) {
         model.addAttribute("persons", personService.findSorted(filterDto));
-        model.addAttribute("filterDto", new FilterDto("","", null, null));
+        model.addAttribute("filterDto", new FilterDto("", (filterDto.condition() != null) ? filterDto.condition():"", null, null));
         model.addAttribute("relationTypeList", relationshipService.getSortedRelationTypes());
         return "persons/list";
     }
