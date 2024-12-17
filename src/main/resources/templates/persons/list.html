@@ -59,6 +59,11 @@
         hr {
             margin: 20px 0;
         }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
     <script>
         function toggleFilters() {
@@ -112,9 +117,11 @@
     </div>
 
     <button type="submit">Filtrer</button>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
 </form>
 
-<ul>
+
+<ul th:if="!${error}">
     <li th:each="person : ${persons}">
         <span th:text="${person.firstName} + ' ' + ${person.lastName}"></span>
         <a th:href="'/persons/'+${person.id()}">profil</a>

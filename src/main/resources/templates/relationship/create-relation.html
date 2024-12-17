@@ -66,5 +66,6 @@
     <button type="submit">Créer une Amitié</button>
     <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
 </form>
+<a th:href="@{/relationships/clusters}">Voir les composantes connexes</a>
 </body>
 </html>

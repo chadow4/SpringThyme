@@ -55,11 +55,52 @@ public class PersonController {
     }
 
 
+    @GetMapping("/filter")
+    public String redirectFilterToPerson(){
+        return "redirect:/persons";
+    }
+
+
     @PostMapping("/filter")
     public String filterPerson(@ModelAttribute("filterDto") FilterDto filterDto, Model model, BindingResult result) {
+        if(filterDto.condition() == null || filterDto.condition().isEmpty()){
+            model.addAttribute("error", "Aucune condition de filtre n'a été renseignée. C'est pas normalement possible donc félicitation mon bon hackeur vous venez de vous faire cramer");
+            return "persons/list";
+        } else {
+            switch(filterDto.condition()){
+                case("all"): break;
+                case("nbrelation") : {
+                    if(filterDto.nbrelation() == null){
+                        model.addAttribute("error", "Le nombre de relation doit être renseigné");
+                        return "persons/list";
+                    }
+                    break;
+                }
+                case("norelation") : break;
+                case("manyrelation") : break;
+                case("keyword") : {
+                    if(filterDto.keyword() == null){
+                        model.addAttribute("error", "Un mot clé doit être passé en paramètre");
+                        return "persons/list";
+                    }
+                    break;
+                }
+                case("friendwith") : {
+                    if(filterDto.user_id() == null){
+                        model.addAttribute("error", "Un identifiant d'utilisateur doit être renseigné");
+                        return "persons/list";
+                    }
+                    break;
+                }
+                default:{
+                    model.addAttribute("error", "scenario inconnu, probablement erreur serveur");
+                    return "persons/list";
+                }
+            }
         model.addAttribute("persons", personService.findSorted(filterDto));
-        model.addAttribute("filterDto", new FilterDto("", (filterDto.condition() != null) ? filterDto.condition():"", null, null));
+        model.addAttribute("filterDto", new FilterDto("", filterDto.condition(), null, null));
         model.addAttribute("relationTypeList", relationshipService.getSortedRelationTypes());
+        }
         return "persons/list";
     }
 

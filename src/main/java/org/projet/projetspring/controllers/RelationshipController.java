@@ -1,6 +1,7 @@
 package org.projet.projetspring.controllers;
 
 import org.projet.projetspring.dtos.FilterDto;
+import org.projet.projetspring.dtos.PersonDto;
 import org.projet.projetspring.dtos.RequestDto;
 import org.projet.projetspring.models.Person;
 import org.projet.projetspring.services.PersonService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/relationships")
@@ -60,5 +63,26 @@ public class RelationshipController {
             model.addAttribute("relations", person.getAllFriendships());
         }
         return "relationship/friendships";
+    }
+
+
+    @GetMapping("/clusters")
+    public String getClusters(Model model){
+        ArrayList<ArrayList<PersonDto>> clusters = this.personService.findAllRelatedComponents();
+
+
+        System.out.println("[");
+        for(ArrayList<PersonDto> cluster : clusters){
+            System.out.println("[");
+            for(PersonDto person : cluster){
+                System.out.println(person.firstName() + " " + person.lastName()+", ");
+            }
+            System.out.println("], ");
+        }
+        System.out.println("], ");
+
+
+        model.addAttribute("clusters", clusters);
+        return "relationship/clusters";
     }
 }
