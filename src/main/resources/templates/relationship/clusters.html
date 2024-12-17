@@ -6,6 +6,16 @@
 </head>
 <body>
 <div th:insert="~{common/header.html :: header}" class="header"></div>
+<ul th:if="${clusters}">
+    <li th:each="cluster : ${clusters}">
+        <ul>
+            <li th:each="person : ${cluster}">
+                <span th:text="${person.firstName} + ' ' + ${person.lastName}"></span>
+            </li>
+        </ul>
+        <hr>
+    </li>
+</ul>
 
 </body>
 </html>
