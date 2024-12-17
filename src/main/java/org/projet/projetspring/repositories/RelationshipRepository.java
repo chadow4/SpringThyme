@@ -20,4 +20,10 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Long
             " UNION " +
             "SELECT r.fromUser.id FROM Relationship r WHERE r.toUser.id = :userid)")
    List<Person> findAllByFriendWith(@Param("userid") Double userid);
+
+    @Query("SELECT p FROM Person p WHERE p.id IN " +
+            "(SELECT r.toUser.id FROM Relationship r WHERE r.fromUser.firstName = :firstname AND r.fromUser.lastName = :lastname" +
+            " UNION " +
+            "SELECT r.fromUser.id FROM Relationship r WHERE r.toUser.firstName = :firstname AND r.toUser.lastName = :lastname)")
+    List<Person> findAllByFriendWithFirstNameLastNameOfFriend(@Param("firstname") String firstname, @Param("lastname") String lastname);
 }

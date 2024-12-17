@@ -1,5 +1,6 @@
 package org.projet.projetspring.services;
 
+import jakarta.servlet.Filter;
 import org.projet.projetspring.dtos.FilterDto;
 import org.projet.projetspring.dtos.PersonDto;
 import org.projet.projetspring.models.Person;
@@ -21,6 +22,7 @@ public class PersonService {
 
     @Autowired
     private RelationshipRepository relationshipRepository;
+    private Filter filter;
 
     public List<PersonDto> toDto(List<Person> list) {
         return list.stream().map(person -> new PersonDto(
@@ -65,8 +67,8 @@ public class PersonService {
             return this.toDto(this.personRepository.findAllByProfilContainingIgnoreCase(filterDto.keyword()));
         }
 
-        if (Objects.equals(filterDto.condition(), "friendwith") && filterDto.user_id() != null) {
-            return this.toDto(this.relationshipRepository.findAllByFriendWith(filterDto.user_id()));
+        if (Objects.equals(filterDto.condition(), "friendwith")) {
+            return this.toDto(this.relationshipRepository.findAllByFriendWithFirstNameLastNameOfFriend(filterDto.user_firstname(), filterDto.user_lastname()));
         }
         return this.findAll();
     }

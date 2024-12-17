@@ -25,7 +25,7 @@ public class PersonController {
     @GetMapping
     public String listPersons(Model model) {
         model.addAttribute("persons", personService.findAll());
-        model.addAttribute("filterDto", new FilterDto("","", null, null));
+        model.addAttribute("filterDto", new FilterDto("","", null, null, null));
         model.addAttribute("relationTypeList", relationshipService.getSortedRelationTypes());
         return "persons/list";
     }
@@ -86,8 +86,8 @@ public class PersonController {
                     break;
                 }
                 case("friendwith") : {
-                    if(filterDto.user_id() == null){
-                        model.addAttribute("error", "Un identifiant d'utilisateur doit être renseigné");
+                    if(filterDto.user_firstname() == null || filterDto.user_lastname() == null || filterDto.user_firstname().isEmpty() || filterDto.user_lastname().isEmpty()){
+                        model.addAttribute("error", "Un nom et un prenom d'utilisateur doivent être renseigné");
                         return "persons/list";
                     }
                     break;
@@ -98,7 +98,7 @@ public class PersonController {
                 }
             }
         model.addAttribute("persons", personService.findSorted(filterDto));
-        model.addAttribute("filterDto", new FilterDto("", filterDto.condition(), null, null));
+        model.addAttribute("filterDto", new FilterDto("", filterDto.condition(), null, null, null));
         model.addAttribute("relationTypeList", relationshipService.getSortedRelationTypes());
         }
         return "persons/list";

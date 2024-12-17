@@ -113,7 +113,8 @@
 
     <div id="friendwith_field" style="display:none;">
         <label>Relation commune avec:</label><br/>
-        <input id="input_friendwith" type="number" th:field="*{user_id}">
+        <label>Prenom: </label><input id="input_friendwith_fn" type="text" th:field="*{user_firstname}">
+        <label>Nom: </label><input id="input_friendwith_ln" type="text" th:field="*{user_lastname}">
     </div>
 
     <button type="submit">Filtrer</button>
