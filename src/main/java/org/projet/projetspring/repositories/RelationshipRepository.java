@@ -14,6 +14,7 @@ import java.util.Set;
 public interface RelationshipRepository extends JpaRepository<Relationship, Long> {
     @Query("SELECT r.relationshipType, COUNT(r.relationshipType) FROM Relationship r GROUP BY r.relationshipType ORDER BY COUNT(r.relationshipType) DESC")
     Set<String> findSortedRelationTypes();
+
     @Query("SELECT p FROM Person p WHERE p.id IN " +
             "(SELECT r.toUser.id FROM Relationship r WHERE r.fromUser.id = :userid " +
             " UNION " +

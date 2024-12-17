@@ -9,7 +9,8 @@ import java.util.List;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    List<Person> findAllByProfilContaining(String keyword);
+    @Query("SELECT p FROM Person p WHERE p.profil ILIKE CONCAT('%', :keyword, '%')")
+    List<Person> findAllByProfilContainingIgnoreCase(String keyword);
     List<Person> findAllByRequestedRelationshipsEmptyAndAskedRelationshipsEmpty();
     @Query("SELECT p FROM Person p WHERE (size(p.askedRelationships)+size(p.requestedRelationships)) <= :n")
     List<Person> findAllWithListSizeLessThanEqual(@Param("n") int n);

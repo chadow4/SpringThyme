@@ -1,28 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Créer une amitié</title>
+    <title>Créer une Amitié</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #17a2b8;
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        select, input, button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #17a2b8;
+            color: white;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #138496;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{common/header.html :: header}"></div>
-<h2>Créer une amitié</h2>
-<form action="#" th:action="@{/relationships/create}" method="post"  th:object="${requestDto}">
-    <label>Personne 1:</label>
-    <select th:field="*{fromUser}"  required>
-        <option th:each="person : ${people}"  th:value="${person.id}" th:text="${person.firstName + ' ' + person.lastName}"></option>
+<h2>Créer une Amitié</h2>
+<form th:action="@{/relationships/create}" method="post" th:object="${requestDto}">
+    <label>Personne 1 :</label>
+    <select th:field="*{fromUser}" required>
+        <option th:each="person : ${people}" th:value="${person.id}" th:text="${person.firstName + ' ' + person.lastName}"></option>
     </select>
-    <label>Personne 2:</label>
+    <label>Personne 2 :</label>
     <select th:field="*{toUser}" required>
-        <option th:each="person : ${people}"  th:value="${person.id}"  th:text="${person.firstName + ' ' + person.lastName}"></option>
+        <option th:each="person : ${people}" th:value="${person.id}" th:text="${person.firstName + ' ' + person.lastName}"></option>
     </select>
-    Relation Type:
-    <label>
-        <input type="text" th:field="*{requestStr}"  minlength="1" required/>
-    </label>
-    <button type="submit">Créer une amitié</button>
+    <label>Type de Relation :</label>
+    <input type="text" th:field="*{requestStr}" required/>
+    <button type="submit">Créer une Amitié</button>
+    <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
 </form>
-
-<div th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></div>
-
 </body>
 </html>

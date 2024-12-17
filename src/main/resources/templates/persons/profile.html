@@ -1,13 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil de la Personne</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1.5em;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .profile-name {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .profile-birthdate {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .profile-info {
+            font-size: 1.1em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
-<div th:insert="~{common/header.html :: header}"></div>
-<span th:text="${person.firstName} + ' ' + ${person.lastName}"></span><br/>
-(Date de naissance : <span th:text="${person.birthDate}"></span>)<br/>
-<span th:text="${person.getProfil()}"></span>
+<div th:insert="~{common/header.html :: header}" class="header"></div>
+
+<div class="profile-container">
+    <div class="profile-name" th:text="${person.firstName} + ' ' + ${person.lastName}"></div>
+    <div class="profile-birthdate">
+        Date de naissance : <span th:text="${person.birthDate}"></span>
+    </div>
+    <div class="profile-info" th:text="${person.getProfil()}"></div>
+</div>
+
+
 </body>
 </html>

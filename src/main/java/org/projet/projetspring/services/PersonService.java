@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ public class PersonService {
     @Autowired
     private RelationshipRepository relationshipRepository;
 
-    public List<PersonDto> toDto(List<Person> list){
+    public List<PersonDto> toDto(List<Person> list) {
         return list.stream().map(person -> new PersonDto(
                         person.getId(),
                         person.getFirstName(),
@@ -53,20 +52,20 @@ public class PersonService {
     }
 
     public List<PersonDto> findSorted(FilterDto filterDto) {
-        if(Objects.equals(filterDto.condition(), "norelation")){
+        if (Objects.equals(filterDto.condition(), "norelation")) {
             return this.toDto(this.personRepository.findAllByRequestedRelationshipsEmptyAndAskedRelationshipsEmpty());
         }
-        if(Objects.equals(filterDto.condition(), "manyrelation")){
+        if (Objects.equals(filterDto.condition(), "manyrelation")) {
             return this.toDto(this.personRepository.findPersonsWithMultipleRelationshipTypes());
         }
-        if(Objects.equals(filterDto.condition(), "nbrelation") && filterDto.nbrelation() != null){
+        if (Objects.equals(filterDto.condition(), "nbrelation") && filterDto.nbrelation() != null) {
             return this.toDto(this.personRepository.findAllWithListSizeLessThanEqual(filterDto.nbrelation()));
         }
-        if(Objects.equals(filterDto.condition(), "keyword") && !filterDto.keyword().isEmpty()){
-            return this.toDto(this.personRepository.findAllByProfilContaining(filterDto.keyword()));
+        if (Objects.equals(filterDto.condition(), "keyword") && !filterDto.keyword().isEmpty()) {
+            return this.toDto(this.personRepository.findAllByProfilContainingIgnoreCase(filterDto.keyword()));
         }
 
-        if(Objects.equals(filterDto.condition(), "friendwith") && filterDto.user_id() != null){
+        if (Objects.equals(filterDto.condition(), "friendwith") && filterDto.user_id() != null) {
             return this.toDto(this.relationshipRepository.findAllByFriendWith(filterDto.user_id()));
         }
         return this.findAll();

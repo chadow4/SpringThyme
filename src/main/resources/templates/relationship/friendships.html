@@ -1,7 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Liste des amitiés</title>
+    <title>Liste des Amitiés</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            width: 200px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        a:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{common/header.html :: header}"></div>
@@ -12,10 +61,10 @@
     </tr>
     <tr th:each="relationship : ${relations}">
         <td>
-    <span th:if="${relationship.fromUser.id == person.id}"
-          th:text="${relationship.toUser.firstName + ' ' + relationship.toUser.lastName + ' relation: ' + relationship.relationshipType}"></span>
+            <span th:if="${relationship.fromUser.id == person.id}"
+                  th:text="${relationship.toUser.firstName + ' ' + relationship.toUser.lastName + ' (relation: ' + relationship.relationshipType + ')'}"></span>
             <span th:if="${relationship.fromUser.id != person.id}"
-                  th:text="${relationship.fromUser.firstName + ' ' + relationship.fromUser.lastName + ' relation: ' + relationship.relationshipType}"></span>
+                  th:text="${relationship.fromUser.firstName + ' ' + relationship.fromUser.lastName + ' (relation: ' + relationship.relationshipType + ')'}"></span>
         </td>
     </tr>
 </table>
