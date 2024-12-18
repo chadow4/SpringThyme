@@ -13,6 +13,15 @@
             color: #007BFF;
             text-align: center;
         }
+
+        .header {
+            background-color: #007bff;
+            color: #fff!important;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 1.5em;
+        }
+
         .form-container {
             background: white;
             padding: 20px;
@@ -53,7 +62,6 @@
             border-radius: 5px;
         }
         a {
-            color: #007BFF;
             text-decoration: none;
         }
         hr {
@@ -86,7 +94,7 @@
     </script>
 </head>
 <body>
-<div th:insert="~{common/header.html :: header}"></div>
+<div th:insert="~{common/header.html :: header}" class="header"></div>
 <h1>Liste des Personnes</h1>
 <form action="#" th:action="@{/persons/filter}" method="post" th:object="${filterDto}">
 
@@ -125,7 +133,7 @@
 <ul th:if="!${error}">
     <li th:each="person : ${persons}">
         <span th:text="${person.firstName} + ' ' + ${person.lastName}"></span>
-        <a th:href="'/persons/'+${person.id()}">profil</a>
+        <a th:href="'/persons/'+${person.id()}">Voir son profil</a>
         (Date de naissance: <span th:text="${person.birthDate}"></span>)
     </li>
 </ul>

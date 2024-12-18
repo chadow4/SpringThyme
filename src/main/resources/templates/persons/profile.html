@@ -56,12 +56,32 @@
             font-size: 0.9em;
             color: #888;
         }
+
+        .check-friend-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        .check-friends{
+            padding: 1em;
+            background-color: #17a2b8;
+            color: white;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
     </style>
 </head>
 <body>
 <div th:insert="~{common/header.html :: header}" class="header"></div>
 
 <div class="profile-container">
+    <div class="check-friend-container">
+        <a class="check-friends" th:href="@{'/relationships/' + ${person.id}}">Voir ses relations</a>
+    </div>
     <div class="profile-name" th:text="${person.firstName} + ' ' + ${person.lastName}"></div>
     <div class="profile-birthdate">
         Date de naissance : <span th:text="${person.birthDate}"></span>

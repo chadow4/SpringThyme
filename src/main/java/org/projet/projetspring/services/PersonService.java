@@ -106,44 +106,6 @@ public class PersonService {
                 }
             }
 
-
-
-        /*
-        ArrayList<ArrayList<Person>> personsCluster = new ArrayList<>();
-        List<Person> persons = this.personRepository.findAll();
-        ArrayList<Person> stack = new ArrayList<>();
-        ArrayList<Person> handledPersons = new ArrayList<>();
-        int j = -1;
-        for (Person p : persons) {
-            if (handledPersons.contains(p)) {
-                continue;
-            }
-            personsCluster.add(new ArrayList<Person>());
-            j++;
-            stack.add(p);
-            while (!stack.isEmpty()) {
-                Person current = stack.get(0);
-                List<Relationship> friendships = current.getAllFriendships();
-                for (Relationship relation : friendships) {
-                    Person p1 = relation.getFromUser();
-                    Person p2 = relation.getToUser();
-                    Person toAdd;
-                    if (current == p1) {
-                        toAdd = p2;
-                    } else {
-                        toAdd = p1;
-                    }
-                    if(!handledPersons.contains(toAdd) && !stack.contains(toAdd)){
-                        stack.add(toAdd);
-                    }
-                }
-                handledPersons.add(current);
-                stack.remove(current);
-                personsCluster.get(j).add(current);
-            }
-        }
-    */
-
         ArrayList<ArrayList<PersonDto>> result = new ArrayList<>();
         for(ArrayList<Person> personsArray : personsCluster){
             result.add((ArrayList<PersonDto>) this.toDto(personsArray));

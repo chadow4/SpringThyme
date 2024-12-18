@@ -1,6 +1,5 @@
 package org.projet.projetspring.controllers;
 
-import org.projet.projetspring.dtos.FilterDto;
 import org.projet.projetspring.dtos.PersonDto;
 import org.projet.projetspring.dtos.RequestDto;
 import org.projet.projetspring.models.Person;
@@ -30,7 +29,7 @@ public class RelationshipController {
     @GetMapping("/new")
     public String showCreateFriendshipForm(Model model) {
         model.addAttribute("people", personService.findAll());
-        model.addAttribute("requestDto", new RequestDto(null,null,""));
+        model.addAttribute("requestDto", new RequestDto(null, null, ""));
         return "relationship/create-relation";
     }
 
@@ -59,7 +58,6 @@ public class RelationshipController {
         }
         model.addAttribute("person", person);
         if (!person.getAllFriendships().isEmpty()) {
-            System.out.println("Liste des amis de " + person.getFirstName() + ": " + person.getAllFriendships());
             model.addAttribute("relations", person.getAllFriendships());
         }
         return "relationship/friendships";
@@ -67,21 +65,8 @@ public class RelationshipController {
 
 
     @GetMapping("/clusters")
-    public String getClusters(Model model){
+    public String getClusters(Model model) {
         ArrayList<ArrayList<PersonDto>> clusters = this.personService.findAllRelatedComponents();
-
-
-        System.out.println("[");
-        for(ArrayList<PersonDto> cluster : clusters){
-            System.out.println("[");
-            for(PersonDto person : cluster){
-                System.out.println(person.firstName() + " " + person.lastName()+", ");
-            }
-            System.out.println("], ");
-        }
-        System.out.println("], ");
-
-
         model.addAttribute("clusters", clusters);
         return "relationship/clusters";
     }
